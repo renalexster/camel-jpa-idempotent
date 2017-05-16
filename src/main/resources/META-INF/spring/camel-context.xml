@@ -7,19 +7,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans                  http://www.springframework.org/schema/beans/spring-beans.xsd                  http://www.springframework.org/schema/osgi      http://www.springframework.org/schema/osgi/spring-osgi.xsd     http://www.springframework.org/schema/osgi-compendium      http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd     http://www.springframework.org/schema/context                  http://www.springframework.org/schema/context/spring-context-3.0.xsd                  http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
     <!-- Comment to run locally -->
     <osgix:cm-properties id="parametros.spring" persistent-id="parametros.spring">
-        <prop key="db.ses.driverClassName">org.postgresql.Driver</prop>
-        <prop key="db.ses.url">jdbc:postgresql://192.168.238.1:5432/camel-jpa
+        <prop key="db.driverClassName">org.postgresql.Driver</prop>
+        <prop key="db.url">jdbc:postgresql://192.168.238.1:5432/camel-jpa
 		</prop>
-        <prop key="db.ses.username">camel-jpa</prop>
-        <prop key="db.ses.password">123456</prop>
+        <prop key="db.username">camel-jpa</prop>
+        <prop key="db.password">123456</prop>
     </osgix:cm-properties>
     <ctx:property-placeholder properties-ref="parametros.spring"/>
     <!-- Comment to run locally -->
-    <bean id="postgresSESDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${db.ses.driverClassName}" />
-		<property name="url" value="${db.ses.url}" />
-		<property name="username" value="${db.ses.username}" />
-		<property name="password" value="${db.ses.password}" />
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${db.driverClassName}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
 	</bean>
     <bean class="com.mycompany.routes.CamelRoute" id="javaCamelRoute"/>
     <bean class="org.apache.camel.component.jpa.JpaComponent" id="jpa">
@@ -29,7 +29,7 @@
     <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="jpaTxManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="persistenceUnit"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
