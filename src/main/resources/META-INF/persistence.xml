@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+    <persistence-unit name="persistenceUnit"
+        transaction-type="RESOURCE_LOCAL">
+        <class>com.mycompany.model.Client</class>
+ 		<class>org.apache.camel.processor.idempotent.jpa.MessageProcessed</class>
+         <properties>
+ 
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.238.1:5432/camel-jpa" />
+            <property name="javax.persistence.jdbc.user" value="camel-jpa" />
+            <property name="javax.persistence.jdbc.password" value="123456" />
+
+            <!-- <property name="hbm2ddl.auto" value="update" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" /> -->
+        </properties>
+ 
+    </persistence-unit>
+     
+     
+</persistence>
