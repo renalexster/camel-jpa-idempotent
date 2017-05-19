@@ -15,12 +15,14 @@
     </osgix:cm-properties>
     <ctx:property-placeholder properties-ref="parametros.spring"/>
     <!-- Comment to run locally -->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${db.driverClassName}" />
-		<property name="url" value="${db.url}" />
-		<property name="username" value="${db.username}" />
-		<property name="password" value="${db.password}" />
-	</bean>
+    <bean
+        class="org.apache.commons.dbcp.BasicDataSource" id="dataSource">
+        <property name="driverClassName" value="${db.driverClassName}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+    </bean>
+    <ctx:annotation-config/>
     <bean class="com.mycompany.routes.CamelRoute" id="javaCamelRoute"/>
     <bean class="org.apache.camel.component.jpa.JpaComponent" id="jpa">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
@@ -29,14 +31,11 @@
     <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="jpaTxManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="persistenceUnit"/>
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-    <!-- <bean
+    <bean
         class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="persistenceUnitName" value="persistenceUnit"/>
-    </bean> -->
+        <!-- <property name="dataSource" ref="dataSource"/> -->
+    </bean>
     <camelContext id="amq-example-context"
         xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://com.mycompany/examples/order">
         <propertyPlaceholder id="properties" location="ref:parametros.spring"/>
