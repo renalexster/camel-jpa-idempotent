@@ -163,6 +163,20 @@
 	</pluginRepositories>
 	<build>
 		<defaultGoal>install</defaultGoal>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/*.xls*</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/fabric8</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -191,8 +205,32 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>${maven-resources-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                    </execution>
+                </executions>				
 				<configuration>
 					<encoding>UTF-8</encoding>
+					<outputDirectory>${basedir}/target/classes</outputDirectory>
+					<resources>
+						<resource>
+							<directory>src/main/resources</directory>
+							<excludes>
+								<exclude>**/*.xls*</exclude>
+							</excludes>
+						</resource>
+						<resource>
+							<directory>src/main/fabric8</directory>
+							<includes>
+								<include>**/*.properties</include>
+							</includes>
+						</resource>
+					</resources>
 				</configuration>
 			</plugin>
 			<plugin>

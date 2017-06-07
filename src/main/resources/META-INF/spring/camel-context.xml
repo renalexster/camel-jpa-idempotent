@@ -8,22 +8,27 @@
     <!-- Comment to run locally -->
     <osgix:cm-properties id="parametros.spring" persistent-id="parametros.spring">
         <prop key="db.driverClassName">org.postgresql.Driver</prop>
-        <prop key="db.url">jdbc:postgresql://192.168.238.1:5432/camel-jpa
-		</prop>
+        <prop key="db.url">jdbc:postgresql://192.168.238.1:5432/camel-jpa</prop>
         <prop key="db.username">camel-jpa</prop>
         <prop key="db.password">123456</prop>
+        <prop key="connection.show_sql">true</prop>
     </osgix:cm-properties>
     <ctx:property-placeholder properties-ref="parametros.spring"/>
-    <!-- Comment to run locally -->
+    <bean class="com.mycompany.routes.CamelRoute" id="javaCamelRoute"/>
+    <ctx:annotation-config/>
     <bean
-        class="org.apache.commons.dbcp.BasicDataSource" id="dataSource">
+        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" id="jpaAdapter">
+        <property name="showSql" value="${connection.show_sql}"/>
+        <property name="generateDdl" value="true"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
+    </bean>
+    <!-- Comment to run locally -->
+    <bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource">
         <property name="driverClassName" value="${db.driverClassName}"/>
         <property name="url" value="${db.url}"/>
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>
     </bean>
-    <ctx:annotation-config/>
-    <bean class="com.mycompany.routes.CamelRoute" id="javaCamelRoute"/>
     <bean class="org.apache.camel.component.jpa.JpaComponent" id="jpa">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
         <property name="transactionManager" ref="jpaTxManager"/>
@@ -32,9 +37,10 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     <bean
-        class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean" id="entityManagerFactory">
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="persistenceUnitName" value="persistenceUnit"/>
-        <!-- <property name="dataSource" ref="dataSource"/> -->
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaAdapter"/>
     </bean>
     <camelContext id="amq-example-context"
         xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://com.mycompany/examples/order">
