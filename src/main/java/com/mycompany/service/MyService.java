@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.camel.Body;
+import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,10 @@ public class MyService {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(MyService.class);
 	
-	public void recordLog(@Body Client client) {
+	public void recordLog(@Body Client client, Exchange exchange) {
+		LOG.info("Inserting client ["+client.getName()+"]");
+		client = em.merge(client);
+		LOG.info("Inserted client ["+client.getId()+" - "+client.getName()+"]");
 		LOG.info("Inserting LogClient");
 		LogClient log = new LogClient();
 		log.setClient(client);
@@ -28,9 +32,8 @@ public class MyService {
 		String strDate = sdf.format(new Date());
 		log.setTxtLog("Persisted Client ["+client.getName()+"] at ["+strDate+"]");
 		
-		em.merge(log);
+//		exchange.getIn().getHeader("CamelEntityManager", EntityManager.class).merge(log);
+		em.persist(log);
 		LOG.info("Inserted LogClient ["+log.getId()+"]");
-		
-		
 	}
 }

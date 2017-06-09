@@ -5,7 +5,6 @@
     xmlns:osgi="http://www.springframework.org/schema/osgi"
     xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans                  http://www.springframework.org/schema/beans/spring-beans.xsd                  http://www.springframework.org/schema/osgi      http://www.springframework.org/schema/osgi/spring-osgi.xsd     http://www.springframework.org/schema/osgi-compendium      http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd     http://www.springframework.org/schema/context                  http://www.springframework.org/schema/context/spring-context-3.0.xsd                  http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
-    <!-- Comment to run locally -->
     <osgix:cm-properties id="parametros.spring" persistent-id="parametros.spring">
         <prop key="db.driverClassName">org.postgresql.Driver</prop>
         <prop key="db.url">jdbc:postgresql://192.168.238.1:5432/camel-jpa</prop>
@@ -14,15 +13,13 @@
         <prop key="connection.show_sql">true</prop>
     </osgix:cm-properties>
     <ctx:property-placeholder properties-ref="parametros.spring"/>
-    <bean class="com.mycompany.routes.CamelRoute" id="javaCamelRoute"/>
     <ctx:annotation-config/>
+    <bean class="com.mycompany.routes.CamelRoute" id="javaCamelRoute"/>
     <bean
         class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" id="jpaAdapter">
-        <property name="showSql" value="${connection.show_sql}"/>
-        <property name="generateDdl" value="true"/>
+        <property name="showSql" value="true"/>
         <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
     </bean>
-    <!-- Comment to run locally -->
     <bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource">
         <property name="driverClassName" value="${db.driverClassName}"/>
         <property name="url" value="${db.url}"/>
@@ -38,9 +35,9 @@
     </bean>
     <bean
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
-        <property name="persistenceUnitName" value="persistenceUnit"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="jpaAdapter"/>
+        <property name="persistenceUnitName" value="persistenceUnit"/>
     </bean>
     <camelContext id="amq-example-context"
         xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://com.mycompany/examples/order">

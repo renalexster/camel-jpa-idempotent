@@ -4,8 +4,12 @@
     version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
     <persistence-unit name="persistenceUnit"
         transaction-type="RESOURCE_LOCAL">
+ 		
+ 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+ 		
         <class>com.mycompany.model.Client</class>
         <class>com.mycompany.model.LogClient</class>
+ 		
  		
          <properties>
  

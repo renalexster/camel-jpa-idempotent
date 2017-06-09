@@ -40,6 +40,10 @@
 			<artifactId>camel-core</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-sql</artifactId>
 		</dependency>
@@ -50,6 +54,10 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-bindy</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -189,7 +197,7 @@
 						<Bundle-Name>Camel Example JPA</Bundle-Name>
 						<Private-Package>com.mycompany.*</Private-Package>
 						<Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
-						<Import-Package>org.postgresql,*</Import-Package>
+						<Import-Package>org.postgresql,org.hibernate.ejb,*</Import-Package>
 						<DynamicImport-Package>*</DynamicImport-Package>
 					</instructions>
 				</configuration>
@@ -263,7 +271,7 @@
 					<profileConfigDir>src/main/fabric8</profileConfigDir>
 					<scope>compile</scope>
 					<parentProfiles>feature-camel</parentProfiles>
-					<features>camel-spring camel-jackson camel-jpa jpa hibernate camel-sql</features>
+					<features>camel-spring camel-jackson camel-jpa jpa hibernate camel-sql camel-bindy camel-csv</features>
 					<bundles>mvn:org.postgresql/postgresql/${postgres.version}</bundles>
 				</configuration>
 			</plugin>
