@@ -14,12 +14,12 @@
          <properties>
  
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.238.1:5432/camel-jpa" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://10.10.5.1:5543/camel" />
             <property name="javax.persistence.jdbc.user" value="camel-jpa" />
             <property name="javax.persistence.jdbc.password" value="123456" />
 
-            <!-- <property name="hbm2ddl.auto" value="update" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" /> -->
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
         </properties>
  
     </persistence-unit>
